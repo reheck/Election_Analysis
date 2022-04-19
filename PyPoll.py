@@ -39,6 +39,18 @@ with open(file_to_load) as election_data:
             candidate_votes[candidate_name] = 0
         # Add a vote to each candidate's count
         candidate_votes[candidate_name] += 1
+    
+# Save the results to text file
+# Using the with statement with the "w" mode we will write data to the file
+with open(file_to_save, "w") as txt_file:
+    # Print the final vote count to the terminal
+    election_results = (
+        f"\nColorado Election Results\n"
+        f"----------------------------\n"
+        f"Total Votes: {total_votes:,}\n"
+        f"----------------------------\n")
+    print(election_results, end="")
+
     # Determine the percentage of votes for each candidate by looping through the counts
     # Iterate through the candiate list
     for candidate_name in candidate_votes:
@@ -47,16 +59,24 @@ with open(file_to_load) as election_data:
         # Calculate the percentage of votes
         vote_percentage = float(votes) / float(total_votes) * 100
         # Print out each candidate's name, vote count, and percentage of votes to the terminal
-        print(f"{candidate_name}: {vote_percentage:.1f}% ({votes:,})\n")
+        #print(f"{candidate_name}: {vote_percentage:.1f}% ({votes:,})\n")
+        candidate_results = (
+            f"{candidate_name}: {vote_percentage:.1f}% ({votes:,})\n")
+        
+        # Print each candidate, their vote count, and percentage to the terminal
+        print(candidate_results)
+        # Save the candidate results to the text file
+        txt_file.write(candidate_results)
 
         #Determine the winning vote count and candidate
-        #Determine if hte vote is greater than the winning count
+        #Determine if the vote is greater than the winning count
         if (votes > winning_count) and (vote_percentage > winning_percentage):
             # If true then set winning_count = votes and winning_percentage = vote_percentage
             winning_count = votes
             winning_percentage = vote_percentage
             # And, set the winning_candidate equal to the candidate's name
             winning_candidate = candidate_name
+    # Print the winning candidate's results to the terminal
     winning_candidate_summary = (
         f"_______________________\n"
         f"Winner: {winning_candidate}\n"
@@ -64,27 +84,7 @@ with open(file_to_load) as election_data:
         f"Winning Percentage: {winning_percentage:.1f}%\n"
         f"_______________________\n")
     print(winning_candidate_summary)
-
-
-
-
-        
-
-    # Using the with statement with the "w" mode we will write data to the file
-    with open(file_to_save, "w") as txt_file:
-        # Write some data to the file
-        txt_file.write("Colorado Election Analysis")
-        txt_file.write("\nCounties in the Election")
-        txt_file.write("\n_________________________")
-        # Write three counties to the file
-        txt_file.write("\nArapahoe\nDenver\nJefferson")
-    
-
-
-# 1. Total votes  cast
-# 2. Pull a complete list of candidates who recieved votes
-# 3. Find the percentage of votes each candidate won/
-# 4. Count the total number of votes each candidate won
-# 5. Determine the winner of the election based on the popular vote
+    # Save the winning candidate's results to the text file
+    txt_file.write(winning_candidate_summary)
 
 
